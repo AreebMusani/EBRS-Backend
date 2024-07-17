@@ -110,6 +110,7 @@ exports.socialLogin = async (req, res) => {
           avatar: body?.avatar
         });
       }else{
+        user.username = body?.username,
         user.googleId = body?.googleId;
         user.avatar = body?.avatar;
         user.loginType = body?.loginType;

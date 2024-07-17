@@ -8,6 +8,8 @@ require("dotenv").config();
 const port = process.env.PORT || 8000
 
 const User = require("./src/routers/user");
+const Songs = require("./src/routers/songs");
+const Like = require("./src/routers/like");
 
 // middlewares
 app.use(cors({origin: '*'}))
@@ -15,6 +17,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use("/api/v1/user", User);
+app.use("/api/v1/songs", Songs);
+app.use("/api/v1/likes", Like);
 
 app.use((err, req, res, next) => {
   // Check if the error is a custom error object with a status code
