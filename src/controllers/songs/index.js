@@ -24,12 +24,13 @@ exports.getAllSongs = async (req, res) => {
 
     // Extract user ratings
     const userRatings = await songs.map((song) => {
-      const userRating = song.Ratings.filter(
-        (rating) => rating.userId.toString() === userId
+      const userRating = song?.Ratings?.filter(
+        (rating) => rating?.userId?.toString() === userId
       );
       if (userRating?.length > 0) {
         song.Ratings = userRating;
       }
+      song.Ratings = []
       return song;
     });
 
@@ -57,6 +58,7 @@ exports.getAllSongs = async (req, res) => {
         }
       }
     }
+    // console.log(arr);
     res.json(arr);
   } catch (err) {
     res.status(500).json({ message: err.message });
