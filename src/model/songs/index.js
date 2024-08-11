@@ -13,7 +13,8 @@ const songSchema = new mongoose.Schema({
     Image: { type: String, required: true },
     Emotion: { type: String, enum: ['Happy', 'Sad', 'Angry', 'Fear'], required: true },
     Rating: {type: Number, default: 0},
-    Ratings: [ratingSchema] // Array of user ratings
+    Ratings: [ratingSchema], // Array of user ratings
+    liked: {type: Boolean, default: false}
 });
 
 const Songs = mongoose.model("Songs", songSchema);
