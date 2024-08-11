@@ -25,7 +25,7 @@ exports.getAllSongs = async (req, res) => {
 
     // Extract user ratings
     const userRatings = await Promise.all(songs.map(async (song) => {
-      song = song.toObject();
+      // song = song.toObject();
       const isLike = await like.findOne({ user: userId, song: song?._id});
       // console.warn(isLike);
       
@@ -34,8 +34,9 @@ exports.getAllSongs = async (req, res) => {
       );
       if (userRating?.length > 0) {
         song.Ratings = userRating;
+      }else{
+        song.Ratings = []
       }
-      song.Ratings = []
       song.liked = isLike ? true : false;
       // console.log(isLike ? true : false);      
       return song;
@@ -49,6 +50,8 @@ exports.getAllSongs = async (req, res) => {
     for (let i = 0; i < n - 1; i++) {
       // Inner loop for comparison and swapping
       for (let j = 0; j < n - i - 1; j++) {
+        console.log(arr[j]?.Ratings?.length);
+        
         // Swap if the element found is greater than the next element
         const rating1 = arr[j]?.Ratings?.length > 0 ? arr[j]?.Ratings[0]?.rating : arr[j]?.Rating;
         const rating2 =
