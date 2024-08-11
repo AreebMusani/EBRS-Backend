@@ -1,4 +1,5 @@
 const Songs = require("../../model/songs");
+const like = require("../../model/likes");
 
 exports.getAllSongs = async (req, res) => {
   let category = req.params.category;
@@ -23,7 +24,11 @@ exports.getAllSongs = async (req, res) => {
     console.log(userId);
 
     // Extract user ratings
-    const userRatings = await songs.map((song) => {
+    const userRatings = await Promise.all(songs.map(async (song) => {
+      song = song.toObject();
+      const isLike = await like.findOne({ user: userId, song: song?._id});
+      // console.warn(isLike);
+      
       const userRating = song?.Ratings?.filter(
         (rating) => rating?.userId?.toString() === userId
       );
@@ -31,8 +36,10 @@ exports.getAllSongs = async (req, res) => {
         song.Ratings = userRating;
       }
       song.Ratings = []
+      song.liked = isLike ? true : false;
+      // console.log(isLike ? true : false);      
       return song;
-    });
+    }));
 
     // Sort songs based on user-specific rating or default rating
     const n = songs.length;
@@ -58,7 +65,7 @@ exports.getAllSongs = async (req, res) => {
         }
       }
     }
-    // console.log(arr);
+    console.log(Object.keys(arr[0]));
     res.json(arr);
   } catch (err) {
     res.status(500).json({ message: err.message });
