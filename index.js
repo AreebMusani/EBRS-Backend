@@ -47,3 +47,23 @@ app.listen(port, async () => {
   // Output ngrok url to console
   console.log(`Ingress established at: ${listener.url()}`);
 });
+
+process.stdin.resume();
+
+
+
+// {
+//     "version": 2,
+//     "builds": [
+//       {
+//         "src": "./src/index.js",
+//         "use": "@vercel/node"
+//       }
+//     ],
+//     "routes": [
+//       {
+//         "src": "/(.*)",
+//         "dest": "/"
+//       }
+//     ]
+//   }
